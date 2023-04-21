@@ -46,8 +46,8 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-#         languages: ${{ matrix.language }}
-          queries: +./.github/workflows/XSS.ql
+        languages: ${{ matrix.language }}
+#         queries: +./.github/workflows/XSS.ql
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
@@ -75,3 +75,10 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+    - name: Tar files
+      run: tar -cvf my_files.tar /home/runner/work/_temp/codeql_databases    
+    - name: upload result
+      uses: actions/upload-artifact@v3
+      with: 
+        name: result
+        path: my_files.tar
